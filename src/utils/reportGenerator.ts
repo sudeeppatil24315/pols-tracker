@@ -150,11 +150,11 @@ export const generateFleetReport = (vehicles: Vehicle[]) => {
     }
 
     // Right column
-    const scheduledETA = vehicle.scheduledETA.toLocaleTimeString('en-US', {
+    const scheduledETA = vehicle.scheduledETA?.toLocaleTimeString('en-US', {
       hour: 'numeric',
       minute: '2-digit',
       hour12: true,
-    });
+    }) || 'N/A';
     const projectedETA = statusCalc.projectedETA.toLocaleTimeString('en-US', {
       hour: 'numeric',
       minute: '2-digit',

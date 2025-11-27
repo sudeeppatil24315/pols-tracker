@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MessageSquare, Send, X } from 'lucide-react';
+import { MessageSquare, Send } from 'lucide-react';
 import type { Vehicle } from '../types';
 
 interface Note {

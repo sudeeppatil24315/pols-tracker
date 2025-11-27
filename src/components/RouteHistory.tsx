@@ -7,7 +7,7 @@ interface RouteHistoryProps {
 
 export default function RouteHistory({ vehicle }: RouteHistoryProps) {
   // Get last 30 minutes of history (450 entries at 4-second intervals)
-  const recentHistory = vehicle.statusHistory.slice(-450);
+  const recentHistory = vehicle.statusHistory?.slice(-450) || [];
 
   // Convert history to polyline coordinates
   const pathCoordinates = recentHistory.map((entry) => [

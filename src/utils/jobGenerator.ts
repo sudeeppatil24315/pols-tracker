@@ -28,14 +28,6 @@ const DESCRIPTIONS = [
   'Priority shipment for restaurant chain',
 ];
 
-// Bangalore area coordinates (approximate boundaries)
-const BANGALORE_BOUNDS = {
-  minLat: 12.85,
-  maxLat: 13.15,
-  minLng: 77.45,
-  maxLng: 77.75,
-};
-
 const BANGALORE_LOCATIONS = [
   { name: 'Koramangala', lat: 12.9352, lng: 77.6245 },
   { name: 'Indiranagar', lat: 12.9716, lng: 77.6412 },

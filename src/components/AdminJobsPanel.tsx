@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { X, MapPin, Clock, User, TrendingUp, CheckCircle, AlertCircle } from 'lucide-react';
 import { useJobStore } from '../stores/jobStore';
 import { useDriverStore } from '../stores/driverStore';
-import type { Job } from '../types';
 
 interface AdminJobsPanelProps {
   isOpen: boolean;
@@ -11,8 +10,8 @@ interface AdminJobsPanelProps {
 
 export default function AdminJobsPanel({ isOpen, onClose }: AdminJobsPanelProps) {
   const { getAllJobs } = useJobStore();
-  const { getDriverProfile } = useDriverStore();
-  const [jobs, setJobs] = useState<Job[]>([]);
+  const { currentDriver } = useDriverStore();
+  const [jobs, setJobs] = useState<any[]>([]);
   const [filter, setFilter] = useState<'all' | 'available' | 'assigned' | 'in-progress' | 'completed'>('all');
 
   // Update jobs every second to show real-time changes
@@ -153,7 +152,8 @@ export default function AdminJobsPanel({ isOpen, onClose }: AdminJobsPanelProps)
             </div>
           ) : (
             filteredJobs.map((job) => {
-              const driver = job.assignedDriverId ? getDriverProfile(job.assignedDriverId) : null;
+              const driver = job.assignedDriverId ? currentDriver : null;
+              const jobStatus = job.status as keyof typeof statusColors;
               
               return (
                 <div key={job.id} className="bg-gray-800 rounded-lg p-5 hover:bg-gray-750 transition">
@@ -161,8 +161,8 @@ export default function AdminJobsPanel({ isOpen, onClose }: AdminJobsPanelProps)
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-2">
                         <h3 className="text-lg font-bold text-white">{job.title}</h3>
-                        <span className={`flex items-center space-x-1 px-2 py-1 ${statusColors[job.status]} text-white text-xs font-semibold rounded`}>
-                          {statusIcons[job.status]}
+                        <span className={`flex items-center space-x-1 px-2 py-1 ${statusColors[jobStatus]} text-white text-xs font-semibold rounded`}>
+                          {statusIcons[jobStatus]}
                           <span>{job.status.toUpperCase()}</span>
                         </span>
                       </div>
@@ -175,8 +175,8 @@ export default function AdminJobsPanel({ isOpen, onClose }: AdminJobsPanelProps)
                           </div>
                           <div className="mt-1">
                             <p className="text-white font-semibold">{driver.name}</p>
-                            <p className="text-xs text-blue-300">{driver.phone} • {driver.vehicleDetails.registrationNumber}</p>
-                            <p className="text-xs text-blue-300">{driver.vehicleDetails.make} {driver.vehicleDetails.model} ({driver.vehicleDetails.type})</p>
+                            <p className="text-xs text-blue-300">{driver.phone} • {driver.vehicleDetails?.registrationNumber || 'N/A'}</p>
+                            <p className="text-xs text-blue-300">{driver.vehicleDetails?.make} {driver.vehicleDetails?.model} ({driver.vehicleDetails?.type})</p>
                           </div>
                         </div>
                       )}
